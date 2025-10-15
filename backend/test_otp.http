@@ -1,0 +1,34 @@
+### Request OTP
+POST http://localhost:3000/auth/request-otp
+Content-Type: application/json
+
+{
+  "whatsapp": "6285156552398"
+}
+### verify otp
+POST http://localhost:3000/auth/verify-otp
+Content-Type: application/json
+
+{
+  "whatsapp": "6285156552398",
+  "otp": "786101"
+}
+### Buat user hotspot baru
+POST http://localhost:3000/hotspot/add
+Content-Type: application/json
+
+{
+  "pelanggan_id": 1,
+  "kode_akses": "NAFA002"
+}
+### Cek Status
+GET http://localhost:3000/hotspot/status/1
+
+### Menghapus user
+POST http://localhost:3000/hotspot/delete
+Content-Type: application/json
+
+{
+  "kode_akses": "NAFA003"
+}
+
