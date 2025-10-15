@@ -13,7 +13,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors({
-  origin: "http://localhost:5173", // alamat frontend
+  origin: true, // alamat frontend
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true, // kalau mau kirim cookies
 }));

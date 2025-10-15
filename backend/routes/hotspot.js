@@ -1,13 +1,12 @@
 import express from "express";
 import { addHotspotUser, getHotspotUsersStatus, deleteHotspotUser } from "../controllers/hotspotController.js";
+import { authenticateToken } from "../middleware/auth.js"; // pakai file yang sudah ada
 
 const router = express.Router();
 
-// Endpoint untuk menambah user hotspot
-router.post("/add", addHotspotUser);
-// Endpoint untuk cek status user hotspot per pelanggan
-router.get("/status/:pelanggan_id", getHotspotUsersStatus);
-// Endpoint untuk menghapus user
-router.post("/delete", deleteHotspotUser);
+// Semua endpoint butuh login
+router.post("/add", authenticateToken, addHotspotUser);
+router.get("/status/:pelanggan_id", authenticateToken, getHotspotUsersStatus);
+router.post("/delete", authenticateToken, deleteHotspotUser);
 
 export default router;

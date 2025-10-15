@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Kode Akses Member</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="dashboard-page">
+  <div class="container">
+    <header class="header">
+      <h2>Portal Kode Akses Member</h2>
+      <button id="logoutBtn" class="btn btn-logout">Logout Keluar</button>
+    </header>
+
+ <p id="welcomeText" class="welcome-text">Selamat datang!</p>
+
+    <section class="table-section">
+      <button id="addUserBtn" class="btn btn-add">+ Tambah User</button>
+      <div class="table-wrapper">
+        <table id="userTable">
+          <thead>
+            <tr>
+              <th>Kode Akses</th>
+              <th>Status</th>
+              <th>IP</th>
+              <th>Uptime</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBody">
+            <tr><td colspan="5">Memuat data...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="js/api.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

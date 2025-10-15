@@ -42,19 +42,37 @@ export const addHotspotUser = async (req, res) => {
 
     // 3️⃣ Koneksi ke Mikrotik
     const { api, client } = await createMikrotikConnection();
-
-    // 4️⃣ Ambil menu hotspot user
     const hotspotUserMenu = client.menu("/ip/hotspot/user");
+
+    // 4️⃣ Cek apakah user sudah ada di Mikrotik
+    const existingUsers = await hotspotUserMenu.get({ name: kode_akses });
+    if (existingUsers.length > 0) {
+      await api.close();
+      return res.status(409).json({
+        message: `User dengan kode akses '${kode_akses}' sudah ada.`,
+      });
+    }
 
     // 5️⃣ Tambahkan user hotspot
     await hotspotUserMenu.add({
       name: kode_akses,
       password: kode_akses,
-      profile: "portal_hotspot", // profil fixed
+      profile: "portal_hotspot",
       comment: `${pelanggan.id} - ${pelanggan.nama}`,
     });
 
-    // 6️⃣ Simpan ke database
+    // 6️⃣ Simpan ke database (pastikan belum duplikat)
+    const [dbCheck] = await db
+      .promise()
+      .query("SELECT * FROM hotspot_users WHERE kode_akses = ?", [kode_akses]);
+
+    if (dbCheck.length > 0) {
+      await api.close();
+      return res.status(409).json({
+        message: `User dengan kode akses '${kode_akses}' sudah ada.`,
+      });
+    }
+
     await db
       .promise()
       .query(
@@ -62,7 +80,6 @@ export const addHotspotUser = async (req, res) => {
         [pelanggan_id, kode_akses]
       );
 
-    // 7️⃣ Tutup koneksi Mikrotik
     await api.close();
 
     return res.status(200).json({
@@ -73,9 +90,11 @@ export const addHotspotUser = async (req, res) => {
     console.error("❌ Gagal menambah user hotspot:", error);
     return res.status(500).json({
       message: "Terjadi kesalahan saat menambah user hotspot.",
+      error: error.message,
     });
   }
 };
+
 
 export const getHotspotUsersStatus = async (req, res) => {
   const { pelanggan_id } = req.params;
@@ -118,7 +137,7 @@ export const getHotspotUsersStatus = async (req, res) => {
       const active = activeUsers.find((au) => au.user === user.kode_akses);
       return {
         kode_akses: user.kode_akses,
-        status: active ? "online" : "offline",
+        status: active ? "🟢 online" : "🔴 offline",
         ip: active ? active.address : null,
         uptime: active ? active.uptime : null,
       };
@@ -186,7 +205,7 @@ export const deleteHotspotUser = async (req, res) => {
     await api.close();
 
     return res.status(200).json({
-      message: `User ${kode_akses} berhasil diputus (jika aktif) dan dihapus dari Mikrotik & database.`,
+      message: `User ${kode_akses} berhasil dihapus.`,
       affectedRows: deleteResult.affectedRows
     });
   } catch (error) {

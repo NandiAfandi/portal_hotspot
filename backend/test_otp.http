@@ -3,32 +3,41 @@ POST http://localhost:3000/auth/request-otp
 Content-Type: application/json
 
 {
-  "whatsapp": "6285156552398"
+  "whatsapp": "085156552398"
 }
 ### verify otp
 POST http://localhost:3000/auth/verify-otp
 Content-Type: application/json
 
 {
-  "whatsapp": "6285156552398",
-  "otp": "786101"
+  "whatsapp": "085156552398",
+  "otp": "102476"
 }
 ### Buat user hotspot baru
 POST http://localhost:3000/hotspot/add
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwid2hhdHNhcHAiOiIwODUxNTY1NTIzOTgiLCJpYXQiOjE3NjA1MDcwMTQsImV4cCI6MTc2MDU1MDIxNH0.UireZuCqpSUHzK6dxHaMEJONDkOfyCLTsHZKNT1v0Rg
 
 {
   "pelanggan_id": 1,
-  "kode_akses": "NAFA002"
+  "kode_akses": "NAFA004"
 }
 ### Cek Status
 GET http://localhost:3000/hotspot/status/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwid2hhdHNhcHAiOiIwODUxNTY1NTIzOTgiLCJpYXQiOjE3NjA1MDcwMTQsImV4cCI6MTc2MDU1MDIxNH0.UireZuCqpSUHzK6dxHaMEJONDkOfyCLTsHZKNT1v0Rg
 
 ### Menghapus user
 POST http://localhost:3000/hotspot/delete
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwid2hhdHNhcHAiOiIwODUxNTY1NTIzOTgiLCJpYXQiOjE3NjA1MDcwMTQsImV4cCI6MTc2MDU1MDIxNH0.UireZuCqpSUHzK6dxHaMEJONDkOfyCLTsHZKNT1v0Rg
+
 
 {
   "kode_akses": "NAFA003"
 }
+
+### Logout
+POST http://localhost:3000/auth/logout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwid2hhdHNhcHAiOiIwODUxNTY1NTIzOTgiLCJpYXQiOjE3NjA1MDcwMTQsImV4cCI6MTc2MDU1MDIxNH0.UireZuCqpSUHzK6dxHaMEJONDkOfyCLTsHZKNT1v0Rg
 
